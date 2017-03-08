@@ -1,0 +1,25 @@
+{
+  "name": "marriage-contract",
+  "version": "0.0.0",
+  "description": "marriage-contract using blockchain",
+  "main": "server.js",
+  "author": "Benjamin Jornet <benjamin.jornet@soprabanking.com>",
+  "dependencies": {
+    "async": "2.1.2",
+    "express": "4.14.0",
+    "socket.io": "0.9.14",
+    "body-parser": "4.4.3",
+    "web3": "0.16.0",
+    "ethereumjs-testrpc": "3.0.0",
+    "truffle": "2.0.8",
+    "truffle-default-builder": "2.0.0",
+    "truffle-soljs-updater": "0.0.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "license": "ISC"
+}

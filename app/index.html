@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en" ng-app="StarterApp">
+  <head>
+    <title>Contrat de mariage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/lib/angular-material.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body layout="row" ng-controller="AppCtrl" ng-cloak>
+    <div layout="column" class="relative" layout-fill role="main">
+      <md-toolbar ng-show="!showSearch">
+        <div class="md-toolbar-tools">
+          <h3>
+            Smart Marriage Contract
+          </h3>
+          <span flex></span>
+          <!--<md-button aria-label="Search" ng-click="showSearch = !showSearch">
+            <ng-md-icon icon="search"></ng-md-icon>
+          </md-button>-->
+          <md-button aria-label="Search" ng-click="fillInput();">
+            <ng-md-icon icon="my_library_books"></ng-md-icon>
+          </md-button>
+          <!--<md-button aria-label="Open Settings" ng-click="showListBottomSheet($event)">
+            <ng-md-icon icon="more_vert"></ng-md-icon>
+          </md-button>-->
+        </div>
+        <md-tabs md-stretch-tabs class="md-primary" md-selected="data.selectedIndex">
+          <md-tab id="tab1" aria-controls="tab1-content">
+            <img src="img/Hearts.png" class="submenu-icon"/>
+            <!--Get married-->
+          </md-tab>
+          <md-tab id="tab2" aria-controls="tab2-content">
+            <img src="img/Dislike.png" class="submenu-icon"/>
+            <!--Divorce-->
+          </md-tab>
+          <md-tab id="tab3" aria-controls="tab3-content">
+            Smart contract
+          </md-tab>
+          <md-tab id="tab4" aria-controls="tab4-content">
+            Blockchain
+          </md-tab>
+        </md-tabs>
+      </md-toolbar>
+      <md-toolbar class="md-hue-1" ng-show="showSearch">
+        <div class="md-toolbar-tools">
+          <md-button ng-click="showSearch = !showSearch" aria-label="Back">
+            <ng-md-icon icon="arrow_back"></ng-md-icon>
+          </md-button>
+          <h3 flex="10">
+            Back
+          </h3>
+          <md-input-container md-theme="input" flex>
+            <label>&nbsp;</label>
+            <input ng-model="search.who" placeholder="enter search">
+          </md-input-container>
+          <md-button aria-label="Search" ng-click="showSearch = !showSearch">
+            <ng-md-icon icon="search"></ng-md-icon>
+          </md-button>
+        </div>
+
+      </md-toolbar>
+      <md-content flex md-scroll-y>
+        <ui-view layout="column" layout-fill layout-padding>
+          <div class="inset" hide-sm></div>
+            <ng-switch on="data.selectedIndex" class="tabpanel-container">
+              <div role="tabpanel"
+                   id="tab1-content"
+                   aria-labelledby="tab1"
+                   ng-switch-when="0"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                      <h2>Mariez-vous avec un Smart Contract !</h2>
+                      <form name="userForm">
+                        <md-checkbox ng-model="isCheckboxChecked" aria-label="NewContract?">
+                            Créer un nouveau contrat ?
+                        </md-checkbox>
+                        <md-input-container ng-show="!isCheckboxChecked">
+                          <label>Previous contract address</label>
+                          <input type="text" name="contractAddress" value="{{contractData.contractAddress}}" ng-model="contractData.contractAddress" required minlength="36"/>
+                          <div ng-messages="userForm.contractAddress.$error" ng-show="userForm.contractAddress.$dirty">
+                          </div>
+                        </md-input-container>
+                        <div class="partner-select-box">
+                          <label>Partner 1</label>
+                          <md-select ng-model="accounts" class="selectbox">
+                            <md-option ng-value="publicKey" ng-repeat="publicKey in accounts" ng-click="setupAccountPartner1(publicKey);">{{ publicKey }}</md-option>
+                          </md-select>
+                        </div>
+                        <div class="partner-select-box">
+                          <label>Partner 2</label>
+                          <md-select ng-model="accounts_" class="selectbox">
+                            <md-option ng-value="publicKey_" ng-repeat="publicKey_ in accounts_" ng-click="setupAccountPartner2(publicKey_);">{{ publicKey_ }}</md-option>
+                          </md-select>
+                        </div>
+                        <md-input-container class="behind-partner2">
+                          <label>Timestamp (ddmmyyyy)</label>
+                          <input type="number" name="timeStamp" value="{{contractData.timeStamp}}" ng-model="contractData.timeStamp" required minlength="8"/>
+                          <div ng-messages="userForm.timeStamp.$error" ng-show="userForm.timeStamp.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Amount of all assets</label>
+                          <input type="number" name="allAssetsAmount" value="{{contractData.allAssetsAmount}}" ng-model="contractData.allAssetsAmount" required minlength="1"/>
+                          <div ng-messages="userForm.allAssetsAmount.$error" ng-show="userForm.allAssetsAmount.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Marriage Status</label>
+                          <input type="text" name="marriageStatus" value="{{contractData.marriageStatus}}" ng-model="contractData.marriageStatus" required minlength="4"/>
+                          <div ng-messages="userForm.marriageStatus.$error" ng-show="userForm.marriageStatus.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Marriage Contract Type</label>
+                          <input type="text" name="marriageContract" value="{{contractData.marriageContract}}" ng-model="contractData.marriageContract" required minlength="4"/>
+                          <div ng-messages="userForm.marriageContract.$error" ng-show="userForm.marriageContract.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Marriage Details</label>
+                          <input type="text" name="marriageDetails" value="{{contractData.marriageDetails}}" ng-model="contractData.marriageDetails" required minlength="4"/>
+                          <div ng-messages="userForm.marriageDetails.$error" ng-show="userForm.marriageDetails.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-button class="md-raised md-primary large-button" ng-click="createMarriage();"> Submit </md-button>
+                      </form>
+                    </md-card-content>
+                  </md-card>
+              </div>
+              <div role="tabpanel"
+                   id="tab2-content"
+                   aria-labelledby="tab2"
+                   ng-switch-when="1"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                      <h2>Divorcez en toute simplicité avec un Smart Contract !</h2>
+                      <form name="userForm">
+                        <md-input-container>
+                          <label>Previous contract address</label>
+                          <input type="text" name="contractAddress" value="{{contractData.contractAddress}}" ng-model="contractData.contractAddress" required minlength="36"/>
+                          <div ng-messages="userForm.contractAddress.$error" ng-show="userForm.contractAddress.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Partner 1</label>
+                          <input type="text" name="partner1" value="{{contractData.partner1}}" ng-model="contractData.partner1" required minlength="2"/>
+                          <div ng-messages="userForm.partner1.$error" ng-show="userForm.partner1.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Partner 2</label>
+                          <input type="text" name="partner2" value="{{contractData.partner2}}" ng-model="contractData.partner2" required minlength="2"/>
+                          <div ng-messages="userForm.partner2.$error" ng-show="userForm.partner2.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Timestamp (ddmmyyyy)</label>
+                          <input type="number" name="timeStamp" value="{{contractData.timeStamp}}" ng-model="contractData.timeStamp" required minlength="8"/>
+                          <div ng-messages="userForm.timeStamp.$error" ng-show="userForm.timeStamp.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>New Marriage Status</label>
+                          <input type="text" name="marriageStatus" value="{{contractData.marriageStatus}}" ng-model="contractData.marriageStatus" required minlength="4"/>
+                          <div ng-messages="userForm.marriageStatus.$error" ng-show="userForm.marriageStatus.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Marriage Details</label>
+                          <input type="text" name="marriageDetails" value="{{contractData.marriageDetails}}" ng-model="contractData.marriageDetails" required minlength="4"/>
+                          <div ng-messages="userForm.marriageDetails.$error" ng-show="userForm.marriageDetails.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-button class="md-raised md-primary large-button" ng-click="createDivorce();"> Submit </md-button>
+                      </form>
+                    </md-card-content>
+                  </md-card>
+              </div>
+              
+              <div role="tabpanel"
+                   id="tab3-content"
+                   aria-labelledby="tab3"
+                   ng-switch-when="2"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                      <h2>Consultez le contenu d'un Smart Contract</h2>
+                      <form name="userForm">
+                        <md-input-container>
+                          <label>Smart Contract address</label>
+                          <input type="text" name="contractAddress" value="{{smartContractContent.contractAddress}}" ng-model="smartContractContent.contractAddress" required minlength="36"/>
+                          <div ng-messages="userForm.contractAddress.$error" ng-show="userForm.contractAddress.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Smart Contract Transaction hash</label>
+                          <input type="text" name="transactionHash" value="{{smartContractContent.transactionHash}}" ng-model="smartContractContent.transactionHash" required minlength="36"/>
+                          <div ng-messages="userForm.transactionHash.$error" ng-show="userForm.transactionHash.$dirty">
+                          </div>
+                        </md-input-container>
+                        <md-button class="md-raised md-primary large-button" ng-click="getSmartContractContent();"> Get Smart Contract Content </md-button>
+                        <md-button class="md-raised md-primary large-button button-separator" ng-click="unitTests();"> Unit Test Smart Contract </md-button>
+                      </form>
+                      <md-item ng-show="isWaitingServer">
+                        <md-progress-circular md-mode="indeterminate" class="circularWait"></md-progress-circular>
+                      </md-item>
+                      
+                      <md-item ng-show="seeSmartContractContent">
+                          <div layout="row" layout-align="center center">
+                              <div><md-content layout-padding>
+                                  <i>Partner1 : </i>
+                              </md-content></div>
+                              <div><md-content layout-padding>
+                                  {{smartContractContent.partner1}} 
+                              </md-content></div>
+                          </div>
+                          <div layout="row" layout-align="center center">
+                              <div><md-content layout-padding>
+                                  <i>Partner2 : </i>
+                              </md-content></div>
+                              <div><md-content layout-padding>
+                                  {{smartContractContent.partner2}} 
+                              </md-content></div>
+                          </div>
+                          <div layout="row" layout-align="center center">
+                              <div><md-content layout-padding>
+                                  <i>TimeStamp : </i>
+                              </md-content></div>
+                              <div><md-content layout-padding>
+                                  {{smartContractContent.timeStamp}} 
+                              </md-content></div>
+                          </div>
+                          <div layout="row" layout-align="center center">
+                              <div><md-content layout-padding>
+                                  <i>Amount of all assets : </i>
+                              </md-content></div>
+                              <div><md-content layout-padding>
+                                  {{smartContractContent.allAssetsAmount}} 
+                              </md-content></div>
+                          </div>
+                          <div layout="row" layout-align="center center">
+                              <div><md-content layout-padding>
+                                  <i>Marriage Status : </i>
+                              </md-content></div>
+                              <div><md-content layout-padding>
+                                  {{smartContractContent.marriageStatus}} 
+                              </md-content></div>
+                          </div>
+                          <div layout="row" layout-align="center center">
+                              <div><md-content layout-padding>
+                                  <i>Marriage Contract Type : </i>
+                              </md-content></div>
+                              <div><md-content layout-padding>
+                                  {{smartContractContent.marriageContract}} 
+                              </md-content></div>
+                          </div>
+                          <div layout="row" layout-align="center center">
+                              <div><md-content layout-padding>
+                                  <i>Marriage Details : </i>
+                              </md-content></div>
+                              <div><md-content layout-padding>
+                                  {{smartContractContent.marriageDetails}} 
+                              </md-content></div>
+                          </div>
+                      </md-item>
+                      <md-item ng-show="seeTestedFunctions">
+                          <div ng-repeat="test in unitTestsRes">
+                            <div layout="row" layout-align="center center">
+                                <div><md-content layout-padding>
+                                    <i>Tested Function : </i>
+                                </md-content></div>
+                                <div><md-content layout-padding>
+                                    {{test.testedFunction}} 
+                                </md-content></div>
+                            </div>
+                            <div layout="row" layout-align="center center">
+                                <div><md-content layout-padding>
+                                    <i>Result : </i>
+                                </md-content></div>
+                                <div><md-content layout-padding>
+                                    {{test.testStatus}} 
+                                </md-content></div>
+                            </div>
+                            <div layout="row" layout-align="center center">
+                                <div><md-content layout-padding>
+                                    <i>Address created : </i>
+                                </md-content></div>
+                                <div><md-content layout-padding>
+                                    {{test.address}} 
+                                </md-content></div>
+                            </div>
+                            <md-divider></md-divider>
+                          </div>
+                      </md-item>
+                    </md-card-content>
+                  </md-card>
+              </div>
+
+              <div role="tabpanel"
+                   id="tab4-content"
+                   aria-labelledby="tab4"
+                   ng-switch-when="3"
+                   md-swipe-left="next()"
+                   md-swipe-right="previous()"
+                   layout="row" layout-align="center center">
+                  <md-card flex-gt-sm="90" flex-gt-md="80">
+                    <md-card-content>
+                      <h2>All Transactions</h2>
+                      <md-list>
+                        <md-item ng-repeat="block in transactionListDisplayed">
+                          <md-item-content>
+                            <div layout="row" layout-align="center center">
+                            <div class="md-tile-left inset">
+                                <img src="img/cube.jpg" class="cube-img" ng-click="updateBlockContentReadable();"/>
+                            </div>
+                            <div class="md-tile-content">
+                              <h2>Block Number : {{block.number}}</h2>
+                              <h3>hash : {{block.hash}}</h3>
+                              <md-item layout class="inset">
+                                  <md-button layout layout-align="start center" flex class="md-primary" ng-click="updateBlockInfo(block.number);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg> Block Informations
+                                  </md-button>
+                              </md-item>
+                              
+                              <div ng-show="showBlockInfo(block.number);">
+                                  <md-divider class="block-divider"></md-divider>
+                                  <br>
+                                  <h4>Nonce : {{block.nonce}}</h4>
+                                  <h4>Miner : {{block.miner}}</h4>
+                                  <h4>Timestamp : {{block.timestamp}}</h4>
+                                  <h4>Difficulty : {{block.difficulty}}</h4>
+                                  <h4>Total Difficulty : {{block.totalDifficulty}}</h4>
+                                  <h4>Gas Limit : {{block.gasLimit}}</h4>
+                                  <h4>Gas Used : {{block.gasUsed}}</h4>
+                                  <h4>Size : {{block.size}}</h4>
+                                  <h4>Transactions Root : {{block.transactionsRoot}}</h4>
+                                  <h4>Receip tRoot : {{block.receiptRoot}}</h4>
+                                  <h4>State Root : {{block.stateRoot}}</h4>
+                                  <h4>Sha3 Uncles : {{block.sha3Uncles}}</h4>
+                                  <h4>Logs Bloom : {{block.logsBloom}}</h4>
+                                  <h4>Extra Data : {{block.extraData}}</h4>
+                              </div>
+                              
+                              <md-item layout class="inset">
+                                  <md-button layout layout-align="start center" flex class="md-primary" ng-click="updateTransactionInfo(block.number);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg> Transactions Informations
+                                  </md-button>
+                              </md-item>
+                              <div ng-show="showTransactionInfo(block.number);" ng-repeat="transaction in block.transactions">
+                                  <md-divider class="block-divider"></md-divider>
+                                  <br>
+                                  <h4>Hash : {{transaction.hash}}</h4>
+                                  <h4>Nonce : {{transaction.nonce}}</h4>
+                                  <h4>From : {{transaction.from}}</h4>
+                                  <h4>To : {{transaction.to}}</h4>
+                                  <h4>Input : {{transaction.input}}</h4>
+                                  <h4>BlockHash : {{transaction.blockHash}}</h4>
+                                  <h4>BlockNumber : {{transaction.blockNumber}}</h4>
+                                  <h4>Gas : {{transaction.gas}}</h4>
+                                  <h4>GasPrice : {{transaction.gasPrice}}</h4>
+                                  <h4>TransactionIndex : {{transaction.transactionIndex}}</h4>
+                                  <h4>Value : {{transaction.value}} Ether</h4>
+                              </div>
+
+                              <md-divider></md-divider>
+                            </div>
+                            </div>
+                          </md-item-content>
+                        </md-item>
+                      </md-list>
+                    </md-card-content>
+                  </md-card>
+              </div>
+
+          </ng-switch>
+        </ui-view>
+      </md-content>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Angular Material Dependencies -->
+    <script src="/js/lib/angular.min.js"></script>
+    <script src="/js/lib/angular-animate.min.js"></script>
+    <script src="/js/lib/angular-aria.min.js"></script>
+    <script src="/js/lib/angular-material.min.js"></script>
+    <script src="/js/lib/angular-material-icons.min.js"></script>
+
+    <script src="/js/lib/web3.min.js"></script>
+    <script src="/js/lib/truffle-contract.min.js"></script>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/HttpService.js"></script>
+  </body>
+</html>

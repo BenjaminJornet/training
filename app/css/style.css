@@ -1,0 +1,40 @@
+.large-button{
+    width: 100%!important;
+    height: 35px!important;
+}
+
+.circularWait {
+    margin-left: auto!important;
+    margin-right: auto!important;
+    margin-top: 15px!important;
+}
+
+.button-separator{
+    margin-top: 15px;
+}
+
+.block-divider{
+    max-width: 15%;     
+}
+
+.cube-img{
+    width: 200px;
+    cursor: pointer;
+}
+
+.partner-select-box {
+    padding-left: 2px;
+}
+
+.selectbox {
+    padding-left: 60px;
+}
+
+.behind-partner2 {
+    padding-top: 26px;
+}
+
+.submenu-icon {
+    height: 40px!important;
+    width: 40px!important;
+}
