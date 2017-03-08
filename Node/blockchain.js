@@ -20,7 +20,7 @@ var contractAdresses = [];
 var currentContractInstance;
 var accounts, coinbase, allEvents, events = [];
 
-// checkTestrpc -> tester les différentes fonctionnalités du client testrpc
+// Tester les différentes fonctionnalités du client testrpc
 blockchainWrapper.checkTestrpc = function () {
     /******************************************
 
@@ -64,9 +64,8 @@ blockchainWrapper.checkTestrpc = function () {
     ******************************************/  
     //console.log("Minage ? : ");
 }
-
-blockchainWrapper.checkTestrpc();
-
+// Pour tester cette fonction, appelez :
+// blockchainWrapper.checkTestrpc();
 
 // Récupérer les comptes depuis le client TestRpc
 blockchainWrapper.getAccounts = function () {
@@ -83,7 +82,13 @@ blockchainWrapper.getAccounts = function () {
     
     //return accounts;
 }
+// Pour tester cette fonction, appelez : 
+// var test_getAccounts = blockchainWrapper.getAccounts();
+// Puis vérifier le contenu de la variable test_getAccounts
 
+
+
+// Mets à jour les contenus des différents blocs.
 blockchainWrapper.updateBlocks = function () {
     /******************************************
 
@@ -96,6 +101,10 @@ blockchainWrapper.updateBlocks = function () {
     //var blocks = blockchainWrapper.getBlocks();
     //console.log("Blocks updated");
 }
+// Pour tester cette fonction, appelez : 
+// blockchainWrapper.updateBlocks();
+
+
 
 // Retourne la dernière transaction effectuée
 blockchainWrapper.getLastTransaction = function () {
@@ -110,6 +119,11 @@ blockchainWrapper.getLastTransaction = function () {
     //console.log(transaction);
     //return transaction;
 }
+// Pour tester cette fonction, appelez :
+// var test_getLastTransaction = blockchainWrapper.getLastTransaction();
+// Puis vérifier le contenu de la variable test_getLastTransaction
+
+
 
 // Vérifie si l'adresse existe bien dans la liste de comptes.
 // Retourne :
@@ -125,6 +139,10 @@ blockchainWrapper.checkTransactionSender = function (address) {
     //var founded = false;
     //return founded;
 }
+// Pour tester cette fonction, appelez :
+// var test_checkTransactionSender = blockchainWrapper.checkTransactionSender(accounts[0]);
+// Puis vérifier le contenu de la variable test_checkTransactionSender
+
 
 // Initialiser l'instance du contrat
 // Paramètre d'entrée :
@@ -146,7 +164,23 @@ blockchainWrapper.initContract = function (senderAddress) {
 
     //var Contract; = web3.eth.contract(abiArray);
 }
+// Pour tester cette fonction, appelez :
+// var test_initContract = blockchainWrapper.initContract(accounts[0]);
+// Puis vérifier le contenu de la variable test_initContract
 
+
+
+// Initialise l'instance de contrat pour les tests
+// -> Fonction seulement à utiliser !
+blockchainWrapper.initContractTest = function (senderAddress) {
+    var instance = blockchainWrapper.initContract(senderAddress);
+    contractAddress = instance.contractAddress;
+    transactionHash = instance.transactionHash;
+        
+    var Marriage = Contract.at(contractAddress);
+    Marriage.transactionHash = transactionHash;
+    return Marriage;
+}
 
 // Encapsule les différentes fonctions du smart contract 
 // -> rediriger n'importe quelle appel depuis le front-end vers le smart contract
@@ -160,16 +194,36 @@ blockchainWrapper.contractWrapper = function (contractInstance, functionName, co
     /******************************************
 
         Step 13 : Vérifier la valeur de functionName, pour appeler la bonne fonction du smart contract
-        -> Le faire pour chaque fonctin du smart contract !
+        -> Le faire pour chaque fonction du smart contract !
 
         Récupérer la valeur de retour de l'appel de la fonction dans la variable marriage
 
         Eventuellement, récupérer le receipt de la transaction avant de faire un return.
 
+        Soient les différentes valeurs que peuvent prendre la variable functionName :
+            - "createMarriage"
+            - "createDivorce"
+            - "getPartner1"
+            - "getPartner2"
+            - "getMarriageDate"
+            - "getAllAssetsAmount"
+            - "getMarriageStatus"
+            - "getMarriageContractType"
+            - "getMarriageDetails"
+
+        -> Vérifiez si le paramètre d'entrée functionName est égale à l'une de ces différentes valeurs,
+        Puis redirigez vers la fonction du smart contract associée
+
     ******************************************/ 
     //var marriage;
     //return marriage;
 }
+// Pour tester cette fonction, appelez : 
+// var _contractData = { functionToCall: "", previousContractAddress: "", contractAddress: "", previousTransactionHash: "", transactionHash: "", partner1: accounts[1], partner2: accounts[0], timeStamp: 10012001, allAssetsAmount: 900000, marriageStatus: "Married", marriageContract: "Communauté universelle", marriageDetails: "Just Married"};
+// var test_contractWrapper = blockchainWrapper.contractWrapper(blockchainWrapper.initContractTest(accounts[0]), "createMarriage", _contractData);
+// Puis vérifier le contenu de la variable test_contractWrapper
+
+
 
 // Appelle une fonction du smart contract
 // Paramètres d'entrée :
@@ -179,7 +233,6 @@ blockchainWrapper.contractWrapper = function (contractInstance, functionName, co
 //      - contractData : objet qui regroupe les différents paramètres d'entrées des fonctions du smart contract
 // Retourne :
 //      - une instance du smart contract
-
 blockchainWrapper.eventWrapper = function (contractInstance) {
     /******************************************
 
@@ -192,8 +245,12 @@ blockchainWrapper.eventWrapper = function (contractInstance) {
 
     ******************************************/ 
 }
+// Pour tester cette fonction, appelez : 
+// blockchainWrapper.eventWrapper(blockchainWrapper.initContractTest(accounts[0]));
 
 
+
+// Sorte de chef d'orchestre pour appeler une fonction du smart contract
 blockchainWrapper.callFunction = function (contractAddress, functionName, senderAddress, contractData) {
     /******************************************
 
@@ -226,7 +283,14 @@ blockchainWrapper.callFunction = function (contractAddress, functionName, sender
     //var Contract, Marriage, transactionHash, isSenderAddressOK;
     //transactionHash = contractData.transactionHash;
 }
+// Pour tester cette fonction, appelez :
+// var _contractData = { functionToCall: "", previousContractAddress: "", contractAddress: "", previousTransactionHash: "", transactionHash: "", partner1: accounts[1], partner2: accounts[0], timeStamp: 10012001, allAssetsAmount: 900000, marriageStatus: "Married", marriageContract: "Communauté universelle", marriageDetails: "Just Married"};
+// var test_callFunction = blockchainWrapper.callFunction(null, "createMarriage", accounts[0], _contractData);
+// Puis vérifier le contenu de la variable test_callFunction
 
+
+
+// Réaliser les tests unitaires du smart contract
 blockchainWrapper.unitTests = function () {
     /******************************************
 
@@ -251,6 +315,9 @@ blockchainWrapper.unitTests = function () {
     //var Contract, testContract, contractInfo;
     //var testRes = [];
 }
+// Pour tester cette fonction, appelez 
+// var test_unitTests = blockchainWrapper.unitTests();
+// Puis vérifier le contenu de la variable test_unitTests
 
 // Transforme un tableau de blocs en un tableau de tableaux de blocs
 // Retourne un résultat de type tableau [][]
