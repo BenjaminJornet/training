@@ -67,6 +67,8 @@ blockchainWrapper.checkTestrpc = function () {
 // Pour tester cette fonction, appelez :
 // blockchainWrapper.checkTestrpc();
 
+
+
 // Récupérer les comptes depuis le client TestRpc
 blockchainWrapper.getAccounts = function () {
 
@@ -83,8 +85,11 @@ blockchainWrapper.getAccounts = function () {
     //return accounts;
 }
 // Pour tester cette fonction, appelez : 
-// var test_getAccounts = blockchainWrapper.getAccounts();
-// Puis vérifier le contenu de la variable test_getAccounts
+/*
+var test_getAccounts = blockchainWrapper.getAccounts();
+console.log("************\nTesting getAccounts\n************");
+console.log(test_getAccounts);
+*/
 
 
 
@@ -120,8 +125,11 @@ blockchainWrapper.getLastTransaction = function () {
     //return transaction;
 }
 // Pour tester cette fonction, appelez :
-// var test_getLastTransaction = blockchainWrapper.getLastTransaction();
-// Puis vérifier le contenu de la variable test_getLastTransaction
+/*
+var test_getLastTransaction = blockchainWrapper.getLastTransaction();
+console.log("************\nTesting getLastTransaction\n************");
+console.log(test_getLastTransaction);
+*/
 
 
 
@@ -140,8 +148,12 @@ blockchainWrapper.checkTransactionSender = function (address) {
     //return founded;
 }
 // Pour tester cette fonction, appelez :
-// var test_checkTransactionSender = blockchainWrapper.checkTransactionSender(accounts[0]);
-// Puis vérifier le contenu de la variable test_checkTransactionSender
+/*
+var test_checkTransactionSender = blockchainWrapper.checkTransactionSender(accounts[0]);
+console.log("************\nTesting checkTransactionSender\n************");
+console.log(test_checkTransactionSender);
+*/
+
 
 
 // Initialiser l'instance du contrat
@@ -165,8 +177,11 @@ blockchainWrapper.initContract = function (senderAddress) {
     //var Contract; = web3.eth.contract(abiArray);
 }
 // Pour tester cette fonction, appelez :
-// var test_initContract = blockchainWrapper.initContract(accounts[0]);
-// Puis vérifier le contenu de la variable test_initContract
+/*
+var test_initContract = blockchainWrapper.initContract(accounts[0]);
+console.log("************\nTesting initContract\n************");
+console.log(test_initContract);
+*/
 
 
 
@@ -181,6 +196,8 @@ blockchainWrapper.initContractTest = function (senderAddress) {
     Marriage.transactionHash = transactionHash;
     return Marriage;
 }
+
+
 
 // Encapsule les différentes fonctions du smart contract 
 // -> rediriger n'importe quelle appel depuis le front-end vers le smart contract
@@ -219,9 +236,12 @@ blockchainWrapper.contractWrapper = function (contractInstance, functionName, co
     //return marriage;
 }
 // Pour tester cette fonction, appelez : 
-// var _contractData = { functionToCall: "", previousContractAddress: "", contractAddress: "", previousTransactionHash: "", transactionHash: "", partner1: accounts[1], partner2: accounts[0], timeStamp: 10012001, allAssetsAmount: 900000, marriageStatus: "Married", marriageContract: "Communauté universelle", marriageDetails: "Just Married"};
-// var test_contractWrapper = blockchainWrapper.contractWrapper(blockchainWrapper.initContractTest(accounts[0]), "createMarriage", _contractData);
-// Puis vérifier le contenu de la variable test_contractWrapper
+/*
+var _contractData = { functionToCall: "", previousContractAddress: "", contractAddress: "", previousTransactionHash: "", transactionHash: "", partner1: accounts[1], partner2: accounts[0], timeStamp: 10012001, allAssetsAmount: 900000, marriageStatus: "Married", marriageContract: "Communauté universelle", marriageDetails: "Just Married"};
+var test_contractWrapper = blockchainWrapper.contractWrapper(blockchainWrapper.initContractTest(accounts[0]), "createMarriage", _contractData);
+console.log("************\nTesting contractWrapper\n************");
+console.log(test_contractWrapper);
+*/
 
 
 
@@ -284,9 +304,12 @@ blockchainWrapper.callFunction = function (contractAddress, functionName, sender
     //transactionHash = contractData.transactionHash;
 }
 // Pour tester cette fonction, appelez :
-// var _contractData = { functionToCall: "", previousContractAddress: "", contractAddress: "", previousTransactionHash: "", transactionHash: "", partner1: accounts[1], partner2: accounts[0], timeStamp: 10012001, allAssetsAmount: 900000, marriageStatus: "Married", marriageContract: "Communauté universelle", marriageDetails: "Just Married"};
-// var test_callFunction = blockchainWrapper.callFunction(null, "createMarriage", accounts[0], _contractData);
-// Puis vérifier le contenu de la variable test_callFunction
+/*
+var _contractData = { functionToCall: "", previousContractAddress: "", contractAddress: "", previousTransactionHash: "", transactionHash: "", partner1: accounts[1], partner2: accounts[0], timeStamp: 10012001, allAssetsAmount: 900000, marriageStatus: "Married", marriageContract: "Communauté universelle", marriageDetails: "Just Married"};
+var test_callFunction = blockchainWrapper.callFunction(null, "createMarriage", accounts[0], _contractData);
+console.log("************\nTesting callFunction\n************");
+console.log(test_callFunction);
+*/
 
 
 
@@ -316,8 +339,13 @@ blockchainWrapper.unitTests = function () {
     //var testRes = [];
 }
 // Pour tester cette fonction, appelez 
-// var test_unitTests = blockchainWrapper.unitTests();
-// Puis vérifier le contenu de la variable test_unitTests
+/*
+var test_unitTests = blockchainWrapper.unitTests();
+console.log("************\nTesting unitTests\n************");
+console.log(test_unitTests);
+*/
+
+
 
 // Transforme un tableau de blocs en un tableau de tableaux de blocs
 // Retourne un résultat de type tableau [][]
